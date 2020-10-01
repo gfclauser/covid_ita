@@ -17,7 +17,7 @@ def directory_cleanup(region):
 def subset_to_region(df, region):
     """Filtra il dataset per la regione specifica."""
     fnl = df.copy()
-    fnl = fnl.loc[fnl["denominazione_regione"] == region].copy()
+    fnl = fnl.loc[fnl["denominazione_regione"] == f"{region}"].copy()
     return fnl
 
 
@@ -64,7 +64,7 @@ def plt_infection_evolution(df_input, region, n_label, dir_path):
         plt.text(day, 0.3, "PHASE 3", fontsize=14, rotation=45)
     ax.set_xticks(ax.get_xticks()[::n_label])
     plt.savefig(f"{dir_path}/infection_evolution_{region}.png")
-    plt.show()
+    # plt.show()
 
 
 def plt_growth_rate(df_input, region, n_label, dir_path):
@@ -100,7 +100,7 @@ def plt_growth_rate(df_input, region, n_label, dir_path):
         plt.text(day, 0.84, "PHASE 3", fontsize=14, rotation=45)
     ax.set_xticks(ax.get_xticks()[::n_label])
     plt.savefig(f"{dir_path}/growth_rate_{region}.png")
-    plt.show()
+    # plt.show()
 
 
 def plt_infection_peak(df_input, region, n_label, dir_path):
@@ -139,4 +139,42 @@ def plt_infection_peak(df_input, region, n_label, dir_path):
         plt.text(day, 0.3, "PHASE 3", fontsize=14, rotation=45)
     ax.set_xticks(ax.get_xticks()[::n_label])
     plt.savefig(f"{dir_path}/peak_evolution_{region}.png")
-    plt.show()
+    # plt.show()
+
+
+def plt_intensive_care(df_input, region, n_label, dir_path):
+    """Numero di letti in terapia intensiva occupati."""
+
+    # Generate plot
+    df = df_input.copy()
+    plt.figure(figsize=(20, 12))
+    ax = sns.lineplot(x="reference_day", y="terapia_intensiva", data=df)
+    plt.fill_between(
+        x="reference_day",
+        y1="terapia_intensiva",
+        y2=0,
+        data=df,
+        color="blue",
+        alpha=0.1,
+    )
+    plt.grid(color="grey", linestyle="--", linewidth=0.5, which="both")
+    plt.ylabel("People in intensive care", fontsize=18)
+    plt.xlabel("")
+    plt.title(f"COVID19 - Intensive care in {region}", fontsize=26)
+    ax.tick_params(axis="both", which="major", labelsize=16)
+    plt.xticks(rotation=45)
+    plt.text(
+        df.reference_day[len(df) - 1],
+        df.terapia_intensiva[len(df) - 1] + 21,
+        df.terapia_intensiva[len(df) - 1],
+        fontsize=14,
+    )
+    for day in ["05-04"]:
+        ax.axvline(day, ls="--", color="blue", lw=1.5)
+        plt.text(day, 0.3, "PHASE 2", fontsize=14, rotation=45)
+    for day in ["06-03"]:
+        ax.axvline(day, ls="--", color="blue", lw=1.5)
+        plt.text(day, 0.3, "PHASE 3", fontsize=14, rotation=45)
+    ax.set_xticks(ax.get_xticks()[::n_label])
+    plt.savefig(f"{dir_path}/intensive_care_{region}.png")
+    # plt.show()

@@ -1,0 +1,25 @@
+"""Metadati utili per tutto il repo."""
+
+region_list = [
+    "Calabria",
+    "Valle d'Aosta",
+    "Sicilia",
+    "Umbria",
+    "Lombardia",
+    "P.A. Trento",
+    "P.A. Bolzano",
+    "Liguria",
+    "Abruzzo",
+    "Lazio",
+    "Campania",
+    "Piemonte",
+    "Veneto",
+    "Marche",
+    "Puglia",
+    "Friuli Venezia Giulia",
+    "Toscana",
+    "Emilia-Romagna",
+    "Sardegna",
+    "Molise",
+    "Basilicata",
+]
