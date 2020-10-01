@@ -12,7 +12,7 @@ from src.utils import (
     plt_infection_peak,
     plt_intensive_care,
 )
-from src.metadata import region_list
+from src.metadata import region_dict
 
 os.chdir("/Users/giorgioclauser/Projects/covid_ita/")
 
@@ -22,7 +22,7 @@ df_all = pd.read_csv(
 )
 
 # Loop over regioni
-for regione in region_list:
+for regione in list(region_dict.keys()):
 
     print(f"Working on {regione}")
 
@@ -38,5 +38,5 @@ for regione in region_list:
     # Generate plots
     plt_infection_evolution(df, regione, 14, dir_path)
     plt_growth_rate(df, regione, 14, dir_path)
-    plt_infection_peak(df, regione, 14, dir_path)
+    plt_infection_peak(df, regione, 14, dir_path, region_dict[regione])
     plt_intensive_care(df, regione, 14, dir_path)

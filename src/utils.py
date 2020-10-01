@@ -103,10 +103,11 @@ def plt_growth_rate(df_input, region, n_label, dir_path):
     # plt.show()
 
 
-def plt_infection_peak(df_input, region, n_label, dir_path):
+def plt_infection_peak(df_input, region, n_label, dir_path, tot_ab):
     """Grafico del numero totale di infetti attivi."""
 
     df = df_input.copy()
+    ratio = df.totale_positivi[len(df) - 1] / (tot_ab / 100000)
     plt.figure(figsize=(20, 12))
     ax = sns.lineplot(
         x="reference_day", y="totale_positivi", data=df, lw=3, color="orange"
@@ -122,7 +123,10 @@ def plt_infection_peak(df_input, region, n_label, dir_path):
     )
     plt.ylabel("Number of infected", fontsize=18)
     plt.xlabel("")
-    plt.title(f"COVID19 - Infection peak evolution in {region}", fontsize=26)
+    plt.title(
+        f"COVID19 - In {region} today {round(ratio,1)} active cases per 100K inhabitants.",
+        fontsize=26,
+    )
     ax.tick_params(axis="both", which="major", labelsize=16)
     plt.xticks(rotation=45)
     plt.text(
