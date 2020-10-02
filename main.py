@@ -3,6 +3,7 @@
 # Set working directory to home
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
 from src.utils import (
     directory_cleanup,
     subset_to_region,
@@ -40,3 +41,4 @@ for regione in list(region_dict.keys()):
     plt_growth_rate(df, regione, 14, dir_path)
     plt_infection_peak(df, regione, 14, dir_path, region_dict[regione])
     plt_intensive_care(df, regione, 14, dir_path)
+    plt.close("all")
