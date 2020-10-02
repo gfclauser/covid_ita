@@ -17,9 +17,14 @@ from src.metadata import region_dict
 
 os.chdir("/Users/giorgioclauser/Projects/covid_ita/")
 
-# Import national data
+# Import region data
 df_all = pd.read_csv(
     "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-regioni/dpc-covid19-ita-regioni.csv"
+)
+
+# Import national data
+df_ita = pd.read_csv(
+    "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-andamento-nazionale/dpc-covid19-ita-andamento-nazionale.csv"
 )
 
 # Loop over regioni
@@ -42,3 +47,19 @@ for regione in list(region_dict.keys()):
     plt_infection_peak(df, regione, 14, dir_path, region_dict[regione])
     plt_intensive_care(df, regione, 14, dir_path)
     plt.close("all")
+
+# Do Italy
+
+print("Working on Italy")
+
+# Manipola dataframe
+df = manipulate_df(df_ita)
+
+dir_path = directory_cleanup("Italia")
+
+# Generate plots
+plt_infection_evolution(df, "Italia", 14, dir_path)
+plt_growth_rate(df, "Italia", 14, dir_path)
+plt_infection_peak(df, "Italia", 14, dir_path, 60244639)
+plt_intensive_care(df, "Italia", 14, dir_path)
+plt.close("all")
