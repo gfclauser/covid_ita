@@ -1,0 +1,1 @@
+To generate plot: open a terminal and type python3 main.py
