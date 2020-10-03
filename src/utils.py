@@ -29,7 +29,7 @@ def manipulate_df(df):
         fnl["tamponi"] - fnl["tamponi"].shift(1)
     )
     fnl["reference_day"] = fnl.data.apply(lambda x: x[5:10])
-    fnl["nuovi_positivi"] = fnl["totale_positivi"] - fnl["totale_positivi"].shift(1)
+    # fnl["nuovi_positivi"] = fnl["totale_positivi"] - fnl["totale_positivi"].shift(1)
     fnl["growth_rate"] = fnl["totale_positivi"] / fnl["totale_positivi"].shift(1)
     fnl.reset_index(inplace=True)
     return fnl
@@ -182,3 +182,45 @@ def plt_intensive_care(df_input, region, n_label, dir_path):
     ax.set_xticks(ax.get_xticks()[::n_label])
     plt.savefig(f"{dir_path}/intensive_care_{region}.png")
     # plt.show()
+
+
+def plt_new_cases(df_input, region, n_label, dir_path, tot_ab):
+    """Grafico del numero di nuovi casi."""
+
+    df = df_input.copy()
+    ratio = df.nuovi_positivi[len(df) - 1] / (tot_ab / 100000)
+    plt.figure(figsize=(20, 12))
+    ax = sns.lineplot(
+        x="reference_day", y="nuovi_positivi", data=df, lw=3, color="orange"
+    )
+    plt.grid(color="grey", linestyle="--", linewidth=0.5, which="both")
+    plt.fill_between(
+        x="reference_day",
+        y1="nuovi_positivi",
+        y2=0,
+        data=df,
+        color="orange",
+        alpha=0.1,
+    )
+    plt.ylabel("Number of new cases", fontsize=18)
+    plt.xlabel("")
+    plt.title(
+        f"COVID19 - In {region} today {round(ratio,2)} new cases per 100K inhabitants.",
+        fontsize=26,
+    )
+    ax.tick_params(axis="both", which="major", labelsize=16)
+    plt.xticks(rotation=45)
+    plt.text(
+        df.reference_day[len(df) - 1],
+        df.nuovi_positivi[len(df) - 1] + 13,
+        df.nuovi_positivi[len(df) - 1],
+        fontsize=14,
+    )
+    for day in ["05-04"]:
+        ax.axvline(day, ls="--", color="blue", lw=1.5)
+        plt.text(day, 0.3, "PHASE 2", fontsize=14, rotation=45)
+    for day in ["06-03"]:
+        ax.axvline(day, ls="--", color="blue", lw=1.5)
+        plt.text(day, 0.3, "PHASE 3", fontsize=14, rotation=45)
+    ax.set_xticks(ax.get_xticks()[::n_label])
+    plt.savefig(f"{dir_path}/new_cases_{region}.png")

@@ -12,6 +12,7 @@ from src.utils import (
     plt_growth_rate,
     plt_infection_peak,
     plt_intensive_care,
+    plt_new_cases,
 )
 from src.metadata import region_dict
 
@@ -46,6 +47,7 @@ for regione in list(region_dict.keys()):
     plt_growth_rate(df, regione, 14, dir_path)
     plt_infection_peak(df, regione, 14, dir_path, region_dict[regione])
     plt_intensive_care(df, regione, 14, dir_path)
+    plt_new_cases(df, regione, 14, dir_path, region_dict[regione])
     plt.close("all")
 
 # Do Italy
@@ -62,4 +64,5 @@ plt_infection_evolution(df, "Italia", 14, dir_path)
 plt_growth_rate(df, "Italia", 14, dir_path)
 plt_infection_peak(df, "Italia", 14, dir_path, 60244639)
 plt_intensive_care(df, "Italia", 14, dir_path)
+plt_new_cases(df, "Italia", 14, dir_path, 60244639)
 plt.close("all")
