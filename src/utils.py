@@ -6,6 +6,22 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
+def plot_time_lines(ax, zz):
+    """Plot vertical time lines."""
+    for day in ["03-09"]:
+        ax.axvline(day, ls="--", color="blue", lw=1.5)
+        plt.text(day, zz, "LOCKDOWN", fontsize=14, rotation=45)
+    for day in ["05-04"]:
+        ax.axvline(day, ls="--", color="blue", lw=1.5)
+        plt.text(day, zz, "PHASE 2", fontsize=14, rotation=45)
+    for day in ["06-03"]:
+        ax.axvline(day, ls="--", color="blue", lw=1.5)
+        plt.text(day, zz, "PHASE 3", fontsize=14, rotation=45)
+    for day in ["11-06"]:
+        ax.axvline(day, ls="--", color="blue", lw=1.5)
+        plt.text(day, zz, "LOCKDOWN", fontsize=14, rotation=45)
+
+
 def directory_cleanup(region):
     """Remove old plots and create directory for new ones."""
     dir_path = f"/Users/giorgioclauser/Documents/covid_plts/{region}"
@@ -56,12 +72,7 @@ def plt_infection_evolution(df_input, region, n_label, dir_path):
         df.totale_casi[len(df) - 1],
         fontsize=14,
     )
-    for day in ["05-04"]:
-        ax.axvline(day, ls="--", color="blue", lw=1.5)
-        plt.text(day, 0.3, "PHASE 2", fontsize=14, rotation=45)
-    for day in ["06-03"]:
-        ax.axvline(day, ls="--", color="blue", lw=1.5)
-        plt.text(day, 0.3, "PHASE 3", fontsize=14, rotation=45)
+    plot_time_lines(ax, 0.3)
     ax.set_xticks(ax.get_xticks()[::n_label])
     plt.savefig(f"{dir_path}/infection_evolution_{region}.png")
     # plt.show()
@@ -92,12 +103,7 @@ def plt_growth_rate(df_input, region, n_label, dir_path):
         round(df_gr.growth_rate[len(df_gr)], 2),
         fontsize=14,
     )
-    for day in ["05-04"]:
-        ax.axvline(day, ls="--", color="blue", lw=1.5)
-        plt.text(day, 0.84, "PHASE 2", fontsize=14, rotation=45)
-    for day in ["06-03"]:
-        ax.axvline(day, ls="--", color="blue", lw=1.5)
-        plt.text(day, 0.84, "PHASE 3", fontsize=14, rotation=45)
+    plot_time_lines(ax, 0.84)
     ax.set_xticks(ax.get_xticks()[::n_label])
     plt.savefig(f"{dir_path}/growth_rate_{region}.png")
     # plt.show()
@@ -135,12 +141,7 @@ def plt_infection_peak(df_input, region, n_label, dir_path, tot_ab):
         df.totale_positivi[len(df) - 1],
         fontsize=14,
     )
-    for day in ["05-04"]:
-        ax.axvline(day, ls="--", color="blue", lw=1.5)
-        plt.text(day, 0.3, "PHASE 2", fontsize=14, rotation=45)
-    for day in ["06-03"]:
-        ax.axvline(day, ls="--", color="blue", lw=1.5)
-        plt.text(day, 0.3, "PHASE 3", fontsize=14, rotation=45)
+    plot_time_lines(ax, 0.3)
     ax.set_xticks(ax.get_xticks()[::n_label])
     plt.savefig(f"{dir_path}/peak_evolution_{region}.png")
     # plt.show()
@@ -173,12 +174,7 @@ def plt_intensive_care(df_input, region, n_label, dir_path):
         df.terapia_intensiva[len(df) - 1],
         fontsize=14,
     )
-    for day in ["05-04"]:
-        ax.axvline(day, ls="--", color="blue", lw=1.5)
-        plt.text(day, 0.3, "PHASE 2", fontsize=14, rotation=45)
-    for day in ["06-03"]:
-        ax.axvline(day, ls="--", color="blue", lw=1.5)
-        plt.text(day, 0.3, "PHASE 3", fontsize=14, rotation=45)
+    plot_time_lines(ax, 0.3)
     ax.set_xticks(ax.get_xticks()[::n_label])
     plt.savefig(f"{dir_path}/intensive_care_{region}.png")
     # plt.show()
@@ -216,11 +212,6 @@ def plt_new_cases(df_input, region, n_label, dir_path, tot_ab):
         df.nuovi_positivi[len(df) - 1],
         fontsize=14,
     )
-    for day in ["05-04"]:
-        ax.axvline(day, ls="--", color="blue", lw=1.5)
-        plt.text(day, 0.3, "PHASE 2", fontsize=14, rotation=45)
-    for day in ["06-03"]:
-        ax.axvline(day, ls="--", color="blue", lw=1.5)
-        plt.text(day, 0.3, "PHASE 3", fontsize=14, rotation=45)
+    plot_time_lines(ax, 0.3)
     ax.set_xticks(ax.get_xticks()[::n_label])
     plt.savefig(f"{dir_path}/new_cases_{region}.png")
