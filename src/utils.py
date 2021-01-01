@@ -8,16 +8,16 @@ import seaborn as sns
 
 def plot_time_lines(ax, zz):
     """Plot vertical time lines."""
-    for day in ["03-09"]:
+    for day in ["2020-03-09"]:
         ax.axvline(day, ls="--", color="blue", lw=1.5)
         plt.text(day, zz, "LOCKDOWN", fontsize=14, rotation=45)
-    for day in ["05-04"]:
+    for day in ["2020-05-04"]:
         ax.axvline(day, ls="--", color="blue", lw=1.5)
         plt.text(day, zz, "PHASE 2", fontsize=14, rotation=45)
-    for day in ["06-03"]:
+    for day in ["2020-06-03"]:
         ax.axvline(day, ls="--", color="blue", lw=1.5)
         plt.text(day, zz, "PHASE 3", fontsize=14, rotation=45)
-    for day in ["11-06"]:
+    for day in ["2020-11-06"]:
         ax.axvline(day, ls="--", color="blue", lw=1.5)
         plt.text(day, zz, "LOCKDOWN", fontsize=14, rotation=45)
 
@@ -44,9 +44,10 @@ def manipulate_df(df):
     fnl["prcn_tamponi_positivi_daily"] = fnl["variazione_totale_positivi"] / (
         fnl["tamponi"] - fnl["tamponi"].shift(1)
     )
-    fnl["reference_day"] = fnl.data.apply(lambda x: x[5:10])
+    fnl["reference_day"] = fnl.data.apply(lambda x: x[0:10])
     # fnl["nuovi_positivi"] = fnl["totale_positivi"] - fnl["totale_positivi"].shift(1)
     fnl["growth_rate"] = fnl["totale_positivi"] / fnl["totale_positivi"].shift(1)
+    fnl["ic_variation"] = fnl["terapia_intensiva"] / fnl["terapia_intensiva"].shift(1)
     fnl.reset_index(inplace=True)
     return fnl
 
@@ -215,3 +216,31 @@ def plt_new_cases(df_input, region, n_label, dir_path, tot_ab):
     plot_time_lines(ax, 0.3)
     ax.set_xticks(ax.get_xticks()[::n_label])
     plt.savefig(f"{dir_path}/new_cases_{region}.png")
+
+
+def plt_ic_variation(df_input, region, n_label, dir_path):
+    """Plot della variazione giornaliera terapia intensiva."""
+
+    df = df_input.copy()
+    # Generate plot
+    df_gr = df[["reference_day", "ic_variation"]].dropna().copy()
+    plt.figure(figsize=(20, 12))
+    ax = sns.lineplot(x="reference_day", y="ic_variation", data=df_gr, lw=3)
+    plt.grid(color="grey", linestyle="--", linewidth=0.5, which="both")
+    plt.ylabel("IC variation", fontsize=18)
+    plt.xlabel("")
+    plt.title(f"COVID19 - Intensive care variation in {region}", fontsize=26)
+    ax.tick_params(axis="both", which="major", labelsize=16)
+    plt.xticks(rotation=45)
+    # plt.ylim(bottom=-2, top=5)
+    ax.axhline(1, ls="--", color="green", lw=1.5)
+    plt.text(
+        df_gr.reference_day[len(df_gr)],
+        df_gr.ic_variation[len(df_gr)] + 0.01,
+        round(df_gr.ic_variation[len(df_gr)], 2),
+        fontsize=14,
+    )
+    plot_time_lines(ax, 0.84)
+    ax.set_xticks(ax.get_xticks()[::n_label])
+    plt.savefig(f"{dir_path}/ic_variation_{region}.png")
+    # plt.show()
