@@ -23,7 +23,7 @@ def plot_time_lines(ax, zz):
 
 
 def directory_cleanup(region):
-    """Remove old plots andd create directory for new ones."""
+    """Remove old plots and create directory for new ones."""
     dir_path = f"/Users/giorgioclauser/Documents/covid_plts/{region}"
     shutil.rmtree(dir_path)
     os.mkdir(dir_path)
