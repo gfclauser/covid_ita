@@ -17,7 +17,7 @@ from src.utils import (
 )
 from src.metadata import region_dict
 
-os.chdir("/Users/giorgioclauser/Projects/covid_ita/")
+os.chdir("/Users/GiorgioClauser 1/Projects/covid_ita")
 
 # Import region data
 df_all = pd.read_csv(
